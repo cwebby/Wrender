@@ -9,14 +9,25 @@ let gl = null;
 
 // Functions
 function glBind(canvas, params = {}) {
-    gl = canvas.getContext('webgl', params);
+    gl = canvas.getContext('webgl2', params);
+    if (!gl) { gl = canvas.getContext('webgl', params);
+	console.error("WEBGL v2 NOT SUPPORTED! WRENDER WILL FALLBACK to v1!"); }
+    if (!gl) { console.error("WEBGL NOT SUPPORTED! WRENDER WILL FAIL TO OPERATE!"); }
+
     gl.enable(gl.SCISSOR_TEST);
 
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LESS);
-
     gl.enable(gl.BLEND);
+
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl['API'] = canvas.getContext('webgl') == gl ? 1 : 
+	    canvas.getContext('webgl2') == gl ? 2 : 0;
+
+    // Extensions... needed for rendering HDR/F32 textures...
+    gl.getExtension('OES_texture_float_linear');
+    gl.getExtension('EXT_color_buffer_float');
+    gl.getExtension('EXT_float_blend');
 }
 
 function glViewport(x, y, width, height) {

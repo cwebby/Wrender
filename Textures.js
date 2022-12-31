@@ -62,15 +62,23 @@ class RenderTexture extends Texture {
     constructor(width = 1, height = 1, params = {}) {
         super(params);
 
+        this.isHDR = gl.API >= 2 &&
+            (params["isHDR"] ?? false);
         this.resize(width, height);
     }
+
+    // Vars
+    isHDR;
 
     // Functions 
     resize(width, height) {
         this.bind();
         this.width = width;
         this.height = height;
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, Math.max(1, width), Math.max(1, height), 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+
+        if (this.isHDR) { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA32F, Math.max(1, width), Math.max(1, height), 0, gl.RGBA, gl.FLOAT, null); }
+        else { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, Math.max(1, width), Math.max(1, height), 0, gl.RGBA, gl.UNSIGNED_BYTE, null); }
+
         this.unbind();
     }
 }

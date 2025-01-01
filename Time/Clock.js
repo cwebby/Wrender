@@ -1,4 +1,4 @@
-/* ~/Clock.js, Cwebb.
+/* Wrender/Time/Clock.js, Cwebby.
  */
 
 // Vars

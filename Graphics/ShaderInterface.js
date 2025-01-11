@@ -11,16 +11,14 @@ class ShaderInterface {
     // Methods
     bind() { console.error("ShaderInterface.bind not implemented!"); }
     unbind() { console.error("ShaderInterface.unbind not implemented!"); }
-
-    setInt(name, value) { console.error("ShaderInterface.setInt not implemented!"); }
-    setInt2(name, value) { console.error("ShaderInterface.setInt2 not implemented!"); }
-    setInt3(name, value) { console.error("ShaderInterface.setInt3 not implemented!"); }
-    setInt4(name, value) { console.error("ShaderInterface.setInt4 not implemented!"); }
-    setBool(name, value) { console.error("ShaderInterface.setBool not implemented!"); }
-    setFloat(name, value) { console.error("ShaderInterface.setFloat not implemented!"); }
-    setFloat2(name, value) { console.error("ShaderInterface.setFloat2 not implemented!"); }
-    setFloat3(name, value) { console.error("ShaderInterface.setFloat3 not implemented!"); }
-    setFloat4(name, value) { console.error("ShaderInterface.setFloat4 not implemented!"); }
+    setInt(name, x) { console.error("ShaderInterface.setInt not implemented!"); }
+    setFloat(name, x) { console.error("ShaderInterface.setFloat not implemented!"); }
+    setInt2(name, x, y) { console.error("ShaderInterface.setInt2 not implemented!"); }
+    setFloat2(name, x, y) { console.error("ShaderInterface.setFloat2 not implemented!"); }
+    setInt3(name, x, y, z) { console.error("ShaderInterface.setInt3 not implemented!"); }
+    setFloat3(name, x, y, z) { console.error("ShaderInterface.setFloat3 not implemented!"); }
+    setInt4(name, x, y, z, w) { console.error("ShaderInterface.setInt4 not implemented!"); }
+    setFloat4(name, x, y, z, w) { console.error("ShaderInterface.setFloat4 not implemented!"); }
     setMatrix2x2(name, value) { console.error("ShaderInterface.setMatrix2x2 not implemented!"); }
     setMatrix3x3(name, value) { console.error("ShadShaderInterfaceer.setMatrix3x3 not implemented!"); }
     setMatrix4x4(name, value) { console.error("ShaderInterface.setMatrix4x4 not implemented!"); }

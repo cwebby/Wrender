@@ -11,6 +11,7 @@ function tick() {
     let now = (Date.now() - startTime) / 1000;
     delta = now - current;
     current = now;
+    
     requestAnimationFrame(tick);
 }
 

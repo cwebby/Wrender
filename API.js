@@ -1,7 +1,9 @@
 // Wrender/API.js, CWEBBY.
 
-const GRAPHICS_API = "WebGL1";
-
+// Import/Export
 export {
     GRAPHICS_API,
 }
+
+// Vars
+const GRAPHICS_API = "WebGL1";

@@ -1,36 +1,13 @@
-/* ~/Core/Textures.js, Cwebb.
- */
+// Wrender/Grahics/Textures.js, CWEBBY.
 
 // Imports / Exports
-export { Texture2D, RenderTexture };
+import * as WRENDER from "../API.js"
+import { WebGL1Texture2D } from "./WebGL1/WebGL1Textures.js"
 
-// Texture
-class Texture {
-    constructor(width, height, params = {}) {
-        this.width = width;
-        this.height = height;
-
-        this.filter = params['wrap'] || "CLAMP"
-        this.filter = params['filter'] || "LINEAR"
-    }
-
-    // Vars
-    wrap; filter; 
-    width; height;
-
-    // Methods
-    bind() { console.error("Texture.bind not implemented!"); }
-    unbind() { console.error("Texture.unbind not implemented!"); }
-
-    release() { console.error("Texture.release not implemented!"); }
-}
+export { Texture2D };
 
 // Texture2D
-class Texture2D extends Texture {
-    constructor(image, params = {}) {
-        super(image.width, image.height, params);
-    }
-
+class Texture2D {
     // Functions
     static fromURL(url, params = {}) {
         return new Promise((res, rej) => {
@@ -39,28 +16,21 @@ class Texture2D extends Texture {
 
             img.onerror = rej;
             img.onload = () => {
-                // switch (WRENDER.GRAPHICS_API)
-                // {
-                //     case "WebGL":
-                //         res(new GLTexture2D(img, params));
-                //         break;
+                switch (WRENDER.GRAPHICS_API)
+                {
+                    case "WebGL1":
+                        res(new WebGL1Texture2D(img, params));
+                        break;
 
-                //     case "WebGL":
-                //         res(new GLTexture2D(img, params));
-                //         break;
-                // }
+                    case "WebGL2":
+                        
+                        break;
+
+                    case "WebGPU":
+                        
+                        break;
+                }
             };
         });
     }
-}
-
-// RenderTexture
-class RenderTexture extends Texture {
-    constructor(width = 1, height = 1, params = {}) {
-        super(width, height, params);
-        this.resize(width, height);
-    }
-
-    // Functions 
-    resize(width, height) { console.error("RenderTexture.resize not implemented!"); }
 }

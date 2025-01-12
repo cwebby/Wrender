@@ -6,35 +6,35 @@ import { ShaderInterface } from "../ShaderInterface.js";
 import { 
 
     // Enums
-    GL1_ACTIVE_UNIFORMS,
-    GL1_ACTIVE_ATTRIBS,
+    GL_ACTIVE_UNIFORMS,
+    GL_ACTIVE_ATTRIBS,
 
-    GL1_COMPILE_STATUS,
-    GL1_LINK_STATUS,
+    GL_COMPILE_STATUS,
+    GL_LINK_STATUS,
  
     // Functions
-    gl1CreateProgram, gl1CreateShader, 
-    gl1ShaderSource, gl1CompileShader,
-    gl1BindAttribLocation,
-    gl1GetProgramParameter,
-    gl1GetShaderParameter,
-    gl1GetProgramInfoLog,
-    gl1GetShaderInfoLog,
+    glCreateProgram, glCreateShader, 
+    glShaderSource, glCompileShader,
+    glBindAttribLocation,
+    glGetProgramParameter,
+    glGetShaderParameter,
+    glGetProgramInfoLog,
+    glGetShaderInfoLog,
 
-    gl1DeleteProgram,
+    glDeleteProgram,
 
-    gl1DeleteShader,
-    gl1AttachShader,
-    gl1LinkProgram,
-    gl1UseProgram,
+    glDeleteShader,
+    glAttachShader,
+    glLinkProgram,
+    glUseProgram,
 
-    gl1GetActiveAttrib,
-    gl1GetActiveUniform,
-    gl1GetUniformLocation,
+    glGetActiveAttrib,
+    glGetActiveUniform,
+    glGetUniformLocation,
 
-    gl1Uniform1i, gl1Uniform2i, gl1Uniform3i, gl1Uniform4i,
-    gl1Uniform1f, gl1Uniform2f, gl1Uniform3f, gl1Uniform4f,
-    gl1UniformMatrix2fv, gl1UniformMatrix3fv, gl1UniformMatrix4fv
+    glUniform1i, glUniform2i, glUniform3i, glUniform4i,
+    glUniform1f, glUniform2f, glUniform3f, glUniform4f,
+    glUniformMatrix2fv, glUniformMatrix3fv, glUniformMatrix4fv
 
 } from "./WebGL1API.js"
     
@@ -45,44 +45,44 @@ class WebGL1Shader extends ShaderInterface {
     constructor (stages) {
         super();
         
-        this.gl1ID = gl1CreateProgram();
+        this.glID = glCreateProgram();
 
         for (let stage in stages) {
-            let shader = gl1CreateShader(stage);
+            let shader = glCreateShader(stage);
 
-            gl1ShaderSource(shader, stages[stage]); // come back to 'stage'.
-            gl1CompileShader(shader);
+            glShaderSource(shader, stages[stage]); // come back to 'stage'.
+            glCompileShader(shader);
 
-             if (!gl1GetShaderParameter(shader, GL1_COMPILE_STATUS)) {
-                console.log(gl1GetShaderInfoLog(shader));
-                gl1DeleteShader(shader);
+             if (!glGetShaderParameter(shader, GL_COMPILE_STATUS)) {
+                console.log(glGetShaderInfoLog(shader));
+                glDeleteShader(shader);
                 return;
             }
 
-            gl1AttachShader(this.gl1ID, shader);
+            glAttachShader(this.glID, shader);
         }
 
-        gl1LinkProgram(this.gl1ID);
+        glLinkProgram(this.glID);
 
-        if (!gl1GetProgramParameter(this.gl1ID, GL1_LINK_STATUS)) {
-            console.log(gl1GetProgramInfoLog(this.gl1ID));
-            gl1DeleteProgram(this.gl1ID);
+        if (!glGetProgramParameter(this.glID, GL_LINK_STATUS)) {
+            console.log(glGetProgramInfoLog(this.glID));
+            glDeleteProgram(this.glID);
             return;
         }
         
         this.bind();
             // Intentionally leave bound for any initial uniform setting right after.
 
-        let activeAttributes = gl1GetProgramParameter(this.gl1ID, GL1_ACTIVE_ATTRIBS);
+        let activeAttributes = glGetProgramParameter(this.glID, GL_ACTIVE_ATTRIBS);
         for (let i = 0; i < activeAttributes; i++) {
-            let activeAttrib = gl1GetActiveAttrib(this.gl1ID, i);
-            gl1BindAttribLocation(this.gl1ID, i, activeAttrib.name);
+            let activeAttrib = glGetActiveAttrib(this.glID, i);
+            glBindAttribLocation(this.glID, i, activeAttrib.name);
         }
 
         let samplerCount = 0;
-        let activeUniforms = gl1GetProgramParameter(this.gl1ID, GL1_ACTIVE_UNIFORMS);
+        let activeUniforms = glGetProgramParameter(this.glID, GL_ACTIVE_UNIFORMS);
         for (let i = 0; i < activeUniforms; i++) {
-            let activeUniform = gl1GetActiveUniform(this.gl1ID, i);
+            let activeUniform = glGetActiveUniform(this.glID, i);
 
             if (activeUniform.type == "SAMPLER2D") {
                 this.samplerBindings[activeUniform.name] = samplerCount;
@@ -90,32 +90,32 @@ class WebGL1Shader extends ShaderInterface {
             }
 
             this.uniformBindings[activeUniform.name] = 
-                gl1GetUniformLocation(this.gl1ID, activeUniform.name);
+                glGetUniformLocation(this.glID, activeUniform.name);
         }
         this.unbind();
     }
 
     // Members
-    gl1ID;
+    glID;
 
     samplerBindings = {};
     uniformBindings = {};
 
     // Methods
-    unbind() { gl1UseProgram(null); }
-    bind() { gl1UseProgram(this.gl1ID); }
+    unbind() { glUseProgram(null); }
+    bind() { glUseProgram(this.glID); }
 
-    setInt(name, x)             { this.bind(); gl1Uniform1i(this.uniformBindings[name], x); this.unbind(); }
-    setFloat(name, x)           { this.bind(); gl1Uniform1f(this.uniformBindings[name], x); this.unbind(); }
-    setInt2(name, x, y)         { this.bind(); gl1Uniform2i(this.uniformBindings[name], x, y); this.unbind(); }
-    setFloat2(name, x, y)       { this.bind(); gl1Uniform2f(this.uniformBindings[name], x, y); this.unbind(); }
-    setInt3(name, x, y, z)      { this.bind(); gl1Uniform3i(this.uniformBindings[name], x, y, z); this.unbind(); }
-    setFloat3(name, x, y, z)    { this.bind(); gl1Uniform3f(this.uniformBindings[name], x, y, z); this.unbind(); }
-    setInt4(name, x, y, z, w)   { this.bind(); gl1Uniform4i(this.uniformBindings[name], x, y, z, w); this.unbind(); }
-    setFloat4(name, x, y, z, w) { this.bind(); gl1Uniform4f(this.uniformBindings[name], x, y, z, w); this.unbind(); }
-    setMatrix2x2(name, matrix)  { this.bind(); gl1UniformMatrix2fv(this.uniformB[name], false, matrix); this.unbind(); }
-    setMatrix3x3(name, matrix)  { this.bind(); gl1UniformMatrix3fv(this.uniformBindings[name], false, matrix); this.unbind(); }
-    setMatrix4x4(name, matrix)  { this.bind(); gl1UniformMatrix4fv(this.uniformBindings[name], false, matrix); this.unbind(); }
+    setInt(name, x)             { this.bind(); glUniform1i(this.uniformBindings[name], x); this.unbind(); }
+    setFloat(name, x)           { this.bind(); glUniform1f(this.uniformBindings[name], x); this.unbind(); }
+    setInt2(name, x, y)         { this.bind(); glUniform2i(this.uniformBindings[name], x, y); this.unbind(); }
+    setFloat2(name, x, y)       { this.bind(); glUniform2f(this.uniformBindings[name], x, y); this.unbind(); }
+    setInt3(name, x, y, z)      { this.bind(); glUniform3i(this.uniformBindings[name], x, y, z); this.unbind(); }
+    setFloat3(name, x, y, z)    { this.bind(); glUniform3f(this.uniformBindings[name], x, y, z); this.unbind(); }
+    setInt4(name, x, y, z, w)   { this.bind(); glUniform4i(this.uniformBindings[name], x, y, z, w); this.unbind(); }
+    setFloat4(name, x, y, z, w) { this.bind(); glUniform4f(this.uniformBindings[name], x, y, z, w); this.unbind(); }
+    setMatrix2x2(name, matrix)  { this.bind(); glUniformMatrix2fv(this.uniformB[name], false, matrix); this.unbind(); }
+    setMatrix3x3(name, matrix)  { this.bind(); glUniformMatrix3fv(this.uniformBindings[name], false, matrix); this.unbind(); }
+    setMatrix4x4(name, matrix)  { this.bind(); glUniformMatrix4fv(this.uniformBindings[name], false, matrix); this.unbind(); }
 
     setTexture2D(name, texture2D) { 
         this.bind();

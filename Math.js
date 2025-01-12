@@ -2,7 +2,13 @@
  */
 
 // Imports / Exports
-export { lerp, toRadians, toDegrees };
+import { Mat4x4 } from "./Math/Mat4x4.js"
+
+export { 
+    Mat4x4,
+
+    lerp, toRadians, toDegrees 
+};
 
 // Vars
 const PI = 3.14159265;

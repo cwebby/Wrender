@@ -1,360 +1,360 @@
 // Wrender/Graphics/WebGL1/WebGL1API.js, CWEBBY.
 
 // =====================================================Shader
-const GL1_LINK_STATUS = "LINK_STATUS";
-const GL1_COMPILE_STATUS = "COMPILE_STATUS";
+const GL_LINK_STATUS = "LINK_STATUS";
+const GL_COMPILE_STATUS = "COMPILE_STATUS";
 
-const GL1_VERTEX_SHADER = "VERTEX_SHADER";
-const GL1_FRAGMENT_SHADER = "FRAGMENT_SHADER";
+const GL_VERTEX_SHADER = "VERTEX_SHADER";
+const GL_FRAGMENT_SHADER = "FRAGMENT_SHADER";
 
-function gl1CreateProgram() {
-    return gl1.createProgram();
+function glCreateProgram() {
+    return gl.createProgram();
 }
 
-function gl1CreateShader(type) {
-    return gl1.createShader(gl1[type]);
+function glCreateShader(type) {
+    return gl.createShader(gl[type]);
 }
 
-function gl1ShaderSource(shader, source) {
-    return gl1.shaderSource(shader, source);
+function glShaderSource(shader, source) {
+    return gl.shaderSource(shader, source);
 }
 
-function gl1CompileShader(shader) {
-    return gl1.compileShader(shader);
+function glCompileShader(shader) {
+    return gl.compileShader(shader);
 }
 
-function gl1GetShaderParameter(shader, name) {
-    return gl1.getShaderParameter(shader, gl1[name]);
+function glGetShaderParameter(shader, name) {
+    return gl.getShaderParameter(shader, gl[name]);
 }
 
-function gl1GetShaderInfoLog(shader) {
-    return gl1.getShaderInfoLog(shader);
+function glGetShaderInfoLog(shader) {
+    return gl.getShaderInfoLog(shader);
 }
 
-function gl1DeleteShader(shader) {
-    return gl1.deleteShader(shader);
+function glDeleteShader(shader) {
+    return gl.deleteShader(shader);
 }
 
-function gl1AttachShader(program, shader) {
-    return gl1.attachShader(program, shader);
+function glAttachShader(program, shader) {
+    return gl.attachShader(program, shader);
 }
 
-function gl1UseProgram(program) {
-    return gl1.useProgram(program);
+function glUseProgram(program) {
+    return gl.useProgram(program);
 }
 
-function gl1LinkProgram(program) {
-    return gl1.linkProgram(program);
+function glLinkProgram(program) {
+    return gl.linkProgram(program);
 }
 
-function gl1DeleteProgram(program) {
-    return gl1.deleteProgram(program);
+function glDeleteProgram(program) {
+    return gl.deleteProgram(program);
 }
     
-function gl1GetProgramParameter(program, parameter) {
-    return gl1.getProgramParameter(program, gl1[parameter]);
+function glGetProgramParameter(program, parameter) {
+    return gl.getProgramParameter(program, gl[parameter]);
 }
 
-function gl1GetProgramInfoLog(program) {
-    return gl1.getProgramInfoLog(program);
+function glGetProgramInfoLog(program) {
+    return gl.getProgramInfoLog(program);
 }
 
 export { // Shader
     // Enums
-    GL1_LINK_STATUS,
-    GL1_COMPILE_STATUS,
-    GL1_VERTEX_SHADER,
-    GL1_FRAGMENT_SHADER,
+    GL_LINK_STATUS,
+    GL_COMPILE_STATUS,
+    GL_VERTEX_SHADER,
+    GL_FRAGMENT_SHADER,
     
     // Functions
-    gl1CreateProgram, gl1CreateShader, 
-    gl1ShaderSource, gl1CompileShader,
+    glCreateProgram, glCreateShader, 
+    glShaderSource, glCompileShader,
 
-    gl1GetProgramParameter,
-    gl1GetShaderParameter,
-    gl1GetProgramInfoLog,
-    gl1GetShaderInfoLog,
+    glGetProgramParameter,
+    glGetShaderParameter,
+    glGetProgramInfoLog,
+    glGetShaderInfoLog,
 
-    gl1DeleteShader,
-    gl1AttachShader,
-    gl1LinkProgram,
-    gl1UseProgram,
-    gl1DeleteProgram,
+    glDeleteShader,
+    glAttachShader,
+    glLinkProgram,
+    glUseProgram,
+    glDeleteProgram,
 }
 // =====================================================Shader
 // =====================================================Uniform
-const GL1_ACTIVE_UNIFORMS = "ACTIVE_UNIFORMS";
+const GL_ACTIVE_UNIFORMS = "ACTIVE_UNIFORMS";
 
-function gl1GetActiveUniform(program, index) {
-    let uniform = gl1.getActiveUniform(program, index);
+function glGetActiveUniform(program, index) {
+    let uniform = gl.getActiveUniform(program, index);
 
     switch (uniform.type) {
-        case gl1["INT"]: return { name: uniform.name, type: "INT" };  
-        case gl1["BOOL"]: return { name: uniform.name, type: "BOOL" };  
-        case gl1["FLOAT"]: return { name: uniform.name, type: "FLOAT" };  
-        case gl1["INT_VEC2"]: return { name: uniform.name, type: "INT2" };  
-        case gl1["INT_VEC3"]: return { name: uniform.name, type: "INT3" };  
-        case gl1["INT_VEC4"]: return { name: uniform.name, type: "INT4" }; 
-        case gl1["BOOL_VEC2"]: return { name: uniform.name, type: "BOOL2" };  
-        case gl1["BOOL_VEC3"]: return { name: uniform.name, type: "BOOL3" };  
-        case gl1["BOOL_VEC4"]: return { name: uniform.name, type: "BOOL4" }; 
-        case gl1["FLOAT_VEC2"]: return { name: uniform.name, type: "FLOAT2" };  
-        case gl1["FLOAT_VEC3"]: return { name: uniform.name, type: "FLOAT3" };  
-        case gl1["FLOAT_VEC4"]: return { name: uniform.name, type: "FLOAT4" }; 
-        case gl1["SAMPLER_2D"]: return { name: uniform.name, type: "SAMPLER2D" };  
-        case gl1["SAMPLER_CUBE"]: return { name: uniform.name, type: "SAMPLERCUBE" };  
+        case gl["INT"]: return { name: uniform.name, type: "INT" };  
+        case gl["BOOL"]: return { name: uniform.name, type: "BOOL" };  
+        case gl["FLOAT"]: return { name: uniform.name, type: "FLOAT" };  
+        case gl["INT_VEC2"]: return { name: uniform.name, type: "INT2" };  
+        case gl["INT_VEC3"]: return { name: uniform.name, type: "INT3" };  
+        case gl["INT_VEC4"]: return { name: uniform.name, type: "INT4" }; 
+        case gl["BOOL_VEC2"]: return { name: uniform.name, type: "BOOL2" };  
+        case gl["BOOL_VEC3"]: return { name: uniform.name, type: "BOOL3" };  
+        case gl["BOOL_VEC4"]: return { name: uniform.name, type: "BOOL4" }; 
+        case gl["FLOAT_VEC2"]: return { name: uniform.name, type: "FLOAT2" };  
+        case gl["FLOAT_VEC3"]: return { name: uniform.name, type: "FLOAT3" };  
+        case gl["FLOAT_VEC4"]: return { name: uniform.name, type: "FLOAT4" }; 
+        case gl["SAMPLER_2D"]: return { name: uniform.name, type: "SAMPLER2D" };  
+        case gl["SAMPLER_CUBE"]: return { name: uniform.name, type: "SAMPLERCUBE" };  
     }
 }
 
-function gl1GetUniformLocation(program, name) {
-    return gl1.getUniformLocation(program, name);
+function glGetUniformLocation(program, name) {
+    return gl.getUniformLocation(program, name);
 }
 
-function gl1Uniform1i(location, value) {
-    return gl1.uniform1i(location, value);
+function glUniform1i(location, value) {
+    return gl.uniform1i(location, value);
 }
 
-function gl1Uniform2i(location, x, y) {
-    return gl1.uniform2i(location, x, y);
+function glUniform2i(location, x, y) {
+    return gl.uniform2i(location, x, y);
 }
 
-function gl1Uniform3i(location, x, y, z) {
-    return gl1.uniform3i(location, x, y, z);
+function glUniform3i(location, x, y, z) {
+    return gl.uniform3i(location, x, y, z);
 }
 
-function gl1Uniform4i(location, x, y, z, w) {
-    return gl1.uniform4i(location, x, y, z, w);
+function glUniform4i(location, x, y, z, w) {
+    return gl.uniform4i(location, x, y, z, w);
 }
 
-function gl1Uniform1f(location, value) {
-    return gl1.uniform1f(location, value);
+function glUniform1f(location, value) {
+    return gl.uniform1f(location, value);
 }
 
-function gl1Uniform2f(location, x, y) {
-    return gl1.uniform2f(location, x, y);
+function glUniform2f(location, x, y) {
+    return gl.uniform2f(location, x, y);
 }
 
-function gl1Uniform3f(location, x, y, z) {
-    return gl1.uniform3f(location, x, y, z);
+function glUniform3f(location, x, y, z) {
+    return gl.uniform3f(location, x, y, z);
 }
 
-function gl1Uniform4f(location, x, y, z, w) {
-    return gl1.uniform4f(location, x, y, z, w);
+function glUniform4f(location, x, y, z, w) {
+    return gl.uniform4f(location, x, y, z, w);
 }
 
-function gl1UniformMatrix2fv(location, transpose, values) {
-    return gl1.uniformMatrix2fv(location, transpose, values);
+function glUniformMatrix2fv(location, transpose, values) {
+    return gl.uniformMatrix2fv(location, transpose, values);
 }
 
-function gl1UniformMatrix3fv(location, transpose, values) {
-    return gl1.uniformMatrix3fv(location, transpose, values);
+function glUniformMatrix3fv(location, transpose, values) {
+    return gl.uniformMatrix3fv(location, transpose, values);
 }
 
-function gl1UniformMatrix4fv(location, transpose, values) {
-    return gl1.uniformMatrix4fv(location, transpose, values);
+function glUniformMatrix4fv(location, transpose, values) {
+    return gl.uniformMatrix4fv(location, transpose, values);
 }
 
 export { 
-    GL1_ACTIVE_UNIFORMS,
+    GL_ACTIVE_UNIFORMS,
 
-    gl1GetActiveUniform,
-    gl1GetUniformLocation,
+    glGetActiveUniform,
+    glGetUniformLocation,
 
-    gl1Uniform1i, gl1Uniform2i, gl1Uniform3i, gl1Uniform4i,
-    gl1Uniform1f, gl1Uniform2f, gl1Uniform3f, gl1Uniform4f,
-    gl1UniformMatrix2fv, gl1UniformMatrix3fv, gl1UniformMatrix4fv
+    glUniform1i, glUniform2i, glUniform3i, glUniform4i,
+    glUniform1f, glUniform2f, glUniform3f, glUniform4f,
+    glUniformMatrix2fv, glUniformMatrix3fv, glUniformMatrix4fv
 };
 // =====================================================Uniform
 // =====================================================Attributes
-const GL1_ACTIVE_ATTRIBS = "ACTIVE_ATTRIBUTES";
+const GL_ACTIVE_ATTRIBS = "ACTIVE_ATTRIBUTES";
 
-function gl1GetActiveAttrib(program, ptr) {
-    return gl1.getActiveAttrib(program, ptr);
+function glGetActiveAttrib(program, ptr) {
+    return gl.getActiveAttrib(program, ptr);
 }
 
-function gl1BindAttribLocation(program, ptr, name) {
-    return gl1.bindAttribLocation(program, ptr, name);
+function glBindAttribLocation(program, ptr, name) {
+    return gl.bindAttribLocation(program, ptr, name);
 }
 
-function gl1EnableVertexAttribArray(ptr) {
-    return gl1.enableVertexAttribArray(ptr);
+function glEnableVertexAttribArray(ptr) {
+    return gl.enableVertexAttribArray(ptr);
 }
 
-function gl1VertexAttribPointer(ptr, components, type, isNormalised, stride, offset) {
-    return gl1.vertexAttribPointer(ptr, components, gl1[type], isNormalised, stride, offset);
+function glVertexAttribPointer(ptr, components, type, isNormalised, stride, offset) {
+    return gl.vertexAttribPointer(ptr, components, gl[type], isNormalised, stride, offset);
 }
 
-function gl1GetAttribLocation(program, name) {
-    return gl1.getAttribLocation(program, name);
+function glGetAttribLocation(program, name) {
+    return gl.getAttribLocation(program, name);
 }
 
 export {
-    GL1_ACTIVE_ATTRIBS,
+    GL_ACTIVE_ATTRIBS,
 
-    gl1GetActiveAttrib,
-    gl1BindAttribLocation,
-    gl1EnableVertexAttribArray,
-    gl1VertexAttribPointer,
-    gl1GetAttribLocation
+    glGetActiveAttrib,
+    glBindAttribLocation,
+    glEnableVertexAttribArray,
+    glVertexAttribPointer,
+    glGetAttribLocation
 }
 // =====================================================Attributes
 // =====================================================Buffers
-const GL1_STATIC_DRAW = "STATIC_DRAW";
-const GL1_DYNAMIC_DRAW = "DYNAMIC_DRAW";
+const GL_STATIC_DRAW = "STATIC_DRAW";
+const GL_DYNAMIC_DRAW = "DYNAMIC_DRAW";
 
-const GL1_ARRAY_BUFFER = "ARRAY_BUFFER";
-const GL1_ELEMENT_ARRAY_BUFFER = "ELEMENT_ARRAY_BUFFER";
+const GL_ARRAY_BUFFER = "ARRAY_BUFFER";
+const GL_ELEMENT_ARRAY_BUFFER = "ELEMENT_ARRAY_BUFFER";
 
-function gl1CreateBuffer() {
-    return gl1.createBuffer();
+function glCreateBuffer() {
+    return gl.createBuffer();
 }
 
-function gl1BindBuffer(type, buffer) {
-    return gl1.bindBuffer(gl1[type], buffer);
+function glBindBuffer(type, buffer) {
+    return gl.bindBuffer(gl[type], buffer);
 }
 
-function gl1BufferData(type, data, usage) {
-    return gl1.bufferData(gl1[type], data, gl1[usage]);
+function glBufferData(type, data, usage) {
+    return gl.bufferData(gl[type], data, gl[usage]);
 }
 
-function gl1DeleteBuffer(buffer) {
-    return gl1.deleteBuffer(buffer);
+function glDeleteBuffer(buffer) {
+    return gl.deleteBuffer(buffer);
 }
 
 export {
-    GL1_STATIC_DRAW,
-    GL1_DYNAMIC_DRAW,
-    GL1_ARRAY_BUFFER,
-    GL1_ELEMENT_ARRAY_BUFFER,
+    GL_STATIC_DRAW,
+    GL_DYNAMIC_DRAW,
+    GL_ARRAY_BUFFER,
+    GL_ELEMENT_ARRAY_BUFFER,
 
-    gl1CreateBuffer,
-    gl1BindBuffer,
-    gl1BufferData,
-    gl1DeleteBuffer
+    glCreateBuffer,
+    glBindBuffer,
+    glBufferData,
+    glDeleteBuffer
 }
 // =====================================================Buffers
 // =====================================================Texutres
-const GL1_RGB = "RGB"
-const GL1_RGBA = "RGBA";
-const GL1_ALPHA = "ALPHA";
-const GL1_LUMINANCE = "LUMINANCE";
-const GL1_LUMINANCE_ALPHA = "LUMINANCE_ALPHA";
+const GL_RGB = "RGB"
+const GL_RGBA = "RGBA";
+const GL_ALPHA = "ALPHA";
+const GL_LUMINANCE = "LUMINANCE";
+const GL_LUMINANCE_ALPHA = "LUMINANCE_ALPHA";
 
-const GL1_UNSIGNED_BYTE = "UNSIGNED_BYTE";
-const GL1_UNSIGNED_SHORT_5_6_5 = "UNSIGNED_SHORT_5_6_5"
-const GL1_UNSIGNED_SHORT_4_4_4_4 = "UNSIGNED_SHORT_4_4_4_4"
-const GL1_UNSIGNED_SHORT_5_5_5_1 = "UNSIGNED_SHORT_5_5_5_1"
+const GL_UNSIGNED_BYTE = "UNSIGNED_BYTE";
+const GL_UNSIGNED_SHORT_5_6_5 = "UNSIGNED_SHORT_5_6_5"
+const GL_UNSIGNED_SHORT_4_4_4_4 = "UNSIGNED_SHORT_4_4_4_4"
+const GL_UNSIGNED_SHORT_5_5_5_1 = "UNSIGNED_SHORT_5_5_5_1"
 
-const GL1_TEXTURE_WRAP_S = "TEXTURE_WRAP_S";
-const GL1_TEXTURE_WRAP_T = "TEXTURE_WRAP_T";
-const GL1_TEXTURE_MIN_FILTER = "TEXTURE_MIN_FILTER";
-const GL1_TEXTURE_MAG_FILTER = "TEXTURE_MAG_FILTER";
+const GL_TEXTURE_WRAP_S = "TEXTURE_WRAP_S";
+const GL_TEXTURE_WRAP_T = "TEXTURE_WRAP_T";
+const GL_TEXTURE_MIN_FILTER = "TEXTURE_MIN_FILTER";
+const GL_TEXTURE_MAG_FILTER = "TEXTURE_MAG_FILTER";
 
-const GL1_TEXTURE_2D = "TEXTURE_2D";
-const GL1_TEXTURE_CUBE_MAP_POSITIVE_X = "TEXTURE_CUBE_MAP_POSITIVE_X";
-const GL1_TEXTURE_CUBE_MAP_NEGATIVE_X = "TEXTURE_CUBE_MAP_NEGATIVE_X";
-const GL1_TEXTURE_CUBE_MAP_POSITIVE_Y = "TEXTURE_CUBE_MAP_POSITIVE_Y";
-const GL1_TEXTURE_CUBE_MAP_NEGATIVE_Y = "TEXTURE_CUBE_MAP_NEGATIVE_Y";
-const GL1_TEXTURE_CUBE_MAP_POSITIVE_Z = "TEXTURE_CUBE_MAP_POSITIVE_Z";
-const GL1_TEXTURE_CUBE_MAP_NEGATIVE_Z = "TEXTURE_CUBE_MAP_NEGATIVE_Z";
+const GL_TEXTURE_2D = "TEXTURE_2D";
+const GL_TEXTURE_CUBE_MAP_POSITIVE_X = "TEXTURE_CUBE_MAP_POSITIVE_X";
+const GL_TEXTURE_CUBE_MAP_NEGATIVE_X = "TEXTURE_CUBE_MAP_NEGATIVE_X";
+const GL_TEXTURE_CUBE_MAP_POSITIVE_Y = "TEXTURE_CUBE_MAP_POSITIVE_Y";
+const GL_TEXTURE_CUBE_MAP_NEGATIVE_Y = "TEXTURE_CUBE_MAP_NEGATIVE_Y";
+const GL_TEXTURE_CUBE_MAP_POSITIVE_Z = "TEXTURE_CUBE_MAP_POSITIVE_Z";
+const GL_TEXTURE_CUBE_MAP_NEGATIVE_Z = "TEXTURE_CUBE_MAP_NEGATIVE_Z";
 
-function gl1CreateTexture() {
-    return gl1.createTexture();
+function glCreateTexture() {
+    return gl.createTexture();
 }
 
-function gl1DeleteTexture(texture) {
-    return gl1.deleteTexture(texture);
+function glDeleteTexture(texture) {
+    return gl.deleteTexture(texture);
 }
 
-function gl1BindTexture(target, texture) {
-    return gl1.bindTexture(gl1[target], texture);
+function glBindTexture(target, texture) {
+    return gl.bindTexture(gl[target], texture);
 }
 
-function gl1TexImage2D(target, level, format, type, image) {
+function glTexImage2D(target, level, format, type, image) {
     if (image["pixels"]) // Sooooooooo bad...
-        return gl1.texImage2D(gl1[target], level, gl1[format], gl1[format], gl1[type], image.pixels);
-    return gl1.texImage2D(gl1[target], level, gl1[format], image.width || 0, image.height || 0, border || 0, gl1[format], gl1[type], null);
+        return gl.texImage2D(gl[target], level, gl[format], gl[format], gl[type], image.pixels);
+    return gl.texImage2D(gl[target], level, gl[format], image.width || 0, image.height || 0, border || 0, gl[format], gl[type], null);
 }
 
-function gl1texParameteri(target, name, value) {
-    return gl1.texParameteri(gl1[target], gl1[name], gl1[value]);
+function gltexParameteri(target, name, value) {
+    return gl.texParameteri(gl[target], gl[name], gl[value]);
 }
 
-function gl1ActiveTexture(slot) {
-    return gl1.activeTexture(gl1["TEXTURE" + slot]);
+function glActiveTexture(slot) {
+    return gl.activeTexture(gl["TEXTURE" + slot]);
 }
 
 export {
-    GL1_TEXTURE_2D,
-    GL1_TEXTURE_CUBE_MAP_POSITIVE_X, GL1_TEXTURE_CUBE_MAP_NEGATIVE_X,
-    GL1_TEXTURE_CUBE_MAP_POSITIVE_Y, GL1_TEXTURE_CUBE_MAP_NEGATIVE_Y,
-    GL1_TEXTURE_CUBE_MAP_POSITIVE_Z, GL1_TEXTURE_CUBE_MAP_NEGATIVE_Z,
+    GL_TEXTURE_2D,
+    GL_TEXTURE_CUBE_MAP_POSITIVE_X, GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+    GL_TEXTURE_CUBE_MAP_POSITIVE_Y, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+    GL_TEXTURE_CUBE_MAP_POSITIVE_Z, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
 
-    GL1_RGB, GL1_RGBA, GL1_ALPHA, GL1_LUMINANCE, GL1_LUMINANCE_ALPHA,
+    GL_RGB, GL_RGBA, GL_ALPHA, GL_LUMINANCE, GL_LUMINANCE_ALPHA,
 
-    GL1_TEXTURE_WRAP_S, GL1_TEXTURE_WRAP_T,
-    GL1_TEXTURE_MIN_FILTER, GL1_TEXTURE_MAG_FILTER,
+    GL_TEXTURE_WRAP_S, GL_TEXTURE_WRAP_T,
+    GL_TEXTURE_MIN_FILTER, GL_TEXTURE_MAG_FILTER,
 
-    GL1_UNSIGNED_BYTE,
-    GL1_UNSIGNED_SHORT_5_6_5, 
-    GL1_UNSIGNED_SHORT_4_4_4_4, 
-    GL1_UNSIGNED_SHORT_5_5_5_1,
+    GL_UNSIGNED_BYTE,
+    GL_UNSIGNED_SHORT_5_6_5, 
+    GL_UNSIGNED_SHORT_4_4_4_4, 
+    GL_UNSIGNED_SHORT_5_5_5_1,
 
-    gl1CreateTexture,
-    gl1DeleteTexture,
-    gl1texParameteri,
-    gl1ActiveTexture,
-    gl1BindTexture,
-    gl1TexImage2D,
+    glCreateTexture,
+    glDeleteTexture,
+    gltexParameteri,
+    glActiveTexture,
+    glBindTexture,
+    glTexImage2D,
 }
 // =====================================================Textures
 // =====================================================Capabilities
-const GL1_BLEND = "BLEND";
-const GL1_DEPTH_TEST = "DEPTH_TEST";
-function gl1Enable(param) {
-    return gl1.enable(gl1[param]);
+const GL_BLEND = "BLEND";
+const GL_DEPTH_TEST = "DEPTH_TEST";
+function glEnable(param) {
+    return gl.enable(gl[param]);
 }
 
-const GL1_SRC_ALPHA = "SRC_ALPHA";
-const GL1_ONE_MINUS_SRC_ALPHA = "ONE_MINUS_SRC_ALPHA";
-function gl1BlendFunc(source, destination) {
-    return gl1.blendFunc(gl1[source], gl1[destination]);
+const GL_SRC_ALPHA = "SRC_ALPHA";
+const GL_ONE_MINUS_SRC_ALPHA = "ONE_MINUS_SRC_ALPHA";
+function glBlendFunc(source, destination) {
+    return gl.blendFunc(gl[source], gl[destination]);
 }
 
-const GL1_SCISSOR_TEST = "SCISSOR_TEST";
-function gl1Scissor(x, y, width, height) { 
-    gl1.scissor(x, y, width, height); 
+const GL_SCISSOR_TEST = "SCISSOR_TEST";
+function glScissor(x, y, width, height) { 
+    gl.scissor(x, y, width, height); 
 }
 
-const GL1_LESS = "LESS";
-function gl1DepthFunc(func) {
-    return gl1.depthFunc(gl1[func]);
+const GL_LESS = "LESS";
+function glDepthFunc(func) {
+    return gl.depthFunc(gl[func]);
 }
 
 export {
-    GL1_BLEND, 
-    GL1_DEPTH_TEST,
-    gl1Enable,
+    GL_BLEND, 
+    GL_DEPTH_TEST,
+    glEnable,
 
-    GL1_SRC_ALPHA,
-    GL1_ONE_MINUS_SRC_ALPHA,
-    gl1BlendFunc,
+    GL_SRC_ALPHA,
+    GL_ONE_MINUS_SRC_ALPHA,
+    glBlendFunc,
 
-    GL1_SCISSOR_TEST,
-    gl1Scissor,
+    GL_SCISSOR_TEST,
+    glScissor,
 
-    GL1_LESS,
-    gl1DepthFunc
+    GL_LESS,
+    glDepthFunc
 }
 // =====================================================Capabilities
-let gl1 = null;
+let gl = null;
 
-const GL1_COLOR_BUFFER = "COLOR_BUFFER_BIT";
-const GL1_DEPTH_BUFFER = "DEPTH_BUFFER_BIT"; 
+const GL_COLOR_BUFFER = "COLOR_BUFFER_BIT";
+const GL_DEPTH_BUFFER = "DEPTH_BUFFER_BIT"; 
 
 // Functions
-function gl1Init(canvas) {
-    if (!(gl1 = canvas.getContext('webgl'))) {  
+function glInit(canvas) {
+    if (!(gl = canvas.getContext('webgl'))) {  
         console.error("Wrender [WebGL1] is not supported!");
         return false;
     }
@@ -362,24 +362,24 @@ function gl1Init(canvas) {
     return true;
 }
 
-function gl1Viewport(x, y, width, height) { return gl1.viewport(x, y, width, height); }
+function glViewport(x, y, width, height) { return gl.viewport(x, y, width, height); }
 
-function gl1Clear(r = 0, g = 0, b = 0, a = 0, bufferMasks) {
-    gl1.clearColor(r, g, b, a);
-    for (let mask in bufferMasks) { gl1.clear(gl1[mask]); }
+function glClear(r = 0, g = 0, b = 0, a = 0, bufferMasks) {
+    gl.clearColor(r, g, b, a);
+    for (let mask in bufferMasks) { gl.clear(gl[mask]); }
 }
 
-function gl1DrawArrays(count) {
-    gl1.drawArrays(gl1.TRIANGLES, 0, count);
+function glDrawArrays(count) {
+    gl.drawArrays(gl.TRIANGLES, 0, count);
 }
 
 export {
     
-    GL1_COLOR_BUFFER,
-    GL1_DEPTH_BUFFER,
+    GL_COLOR_BUFFER,
+    GL_DEPTH_BUFFER,
 
-    gl1Init,
-    gl1Viewport,
-    gl1Clear,
-    gl1DrawArrays,
+    glInit,
+    glViewport,
+    glClear,
+    glDrawArrays,
 }

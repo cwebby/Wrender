@@ -6,16 +6,16 @@
 // Import/Export
 import {
     
-    GL1_ARRAY_BUFFER,
-    GL1_STATIC_DRAW,
+    GL_ARRAY_BUFFER,
+    GL_STATIC_DRAW,
 
-    gl1CreateBuffer,
-    gl1BindBuffer,
-    gl1BufferData,
-    gl1DeleteBuffer,
+    glCreateBuffer,
+    glBindBuffer,
+    glBufferData,
+    glDeleteBuffer,
 
-    gl1VertexAttribPointer,
-    gl1EnableVertexAttribArray
+    glVertexAttribPointer,
+    glEnableVertexAttribArray
 
 } from "./WebGL1API.js"
 
@@ -28,10 +28,10 @@ class WebGL1VertexArray extends VertexArrayInterface {
     constructor(layout, data, indices = null) {
         super(layout, data, indices);
 
-        this.attributeBuffer = gl1CreateBuffer();
-        gl1BindBuffer(GL1_ARRAY_BUFFER, this.attributeBuffer); // this.bind?
-        gl1BufferData(GL1_ARRAY_BUFFER, data, GL1_STATIC_DRAW);
-        gl1BindBuffer(GL1_ARRAY_BUFFER, null);// this.unbind?
+        this.attributeBuffer = glCreateBuffer();
+        glBindBuffer(GL_ARRAY_BUFFER, this.attributeBuffer); // this.bind?
+        glBufferData(GL_ARRAY_BUFFER, data, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, null);// this.unbind?
     }
 
     // Vars
@@ -39,20 +39,20 @@ class WebGL1VertexArray extends VertexArrayInterface {
 
     // Methods
     bind() { 
-        gl1BindBuffer(GL1_ARRAY_BUFFER, this.attributeBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, this.attributeBuffer);
         
         let offset = 0;
         for (let i = 0; i < this.layout.length; i++)
         {
             let attribute = this.layout[i];
-            gl1EnableVertexAttribArray(i);
+            glEnableVertexAttribArray(i);
 
-            gl1VertexAttribPointer(i, attribute.count, 
+            glVertexAttribPointer(i, attribute.count, 
                 attribute.type.name, false, this.sizeof, offset);
             offset += attribute.type.sizeof * attribute.count;
         }
     }
 
-    unbind() { gl1BindBuffer(GL1_ARRAY_BUFFER, null); }
-    release() { gl1DeleteBuffer(this.attributeBuffer); }
+    unbind() { glBindBuffer(GL_ARRAY_BUFFER, null); }
+    release() { glDeleteBuffer(this.attributeBuffer); }
 }

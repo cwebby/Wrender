@@ -2,11 +2,11 @@
 
 // Imports/Exports
 import { 
-    GL1_SCISSOR_TEST, 
-    GL1_DEPTH_TEST, GL1_LESS,
-    GL1_BLEND, GL1_SRC_ALPHA, GL1_ONE_MINUS_SRC_ALPHA,
-    gl1Init, gl1Viewport, gl1DrawArrays, gl1DepthFunc, gl1BlendFunc, gl1Enable,
-    gl1Scissor
+    GL_SCISSOR_TEST, 
+    GL_DEPTH_TEST, GL_LESS,
+    GL_BLEND, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA,
+    glInit, glViewport, glDrawArrays, glDepthFunc, glBlendFunc, glEnable,
+    glScissor
 
 } from "./Graphics/WebGL1/WebGL1API.js"
 
@@ -16,24 +16,7 @@ import { VertexArray } from "./Graphics/VertexArray.js"
 export { Graphics };
 
 // defs
-let BYTE = null;
-let FLOAT = null;
-let SHORT = null;
-let UBYTE = null;
-let USHORT = null;
 
-switch (WRENDER.GRAPHICS_API) {
-        
-    case "WebGL1":
-        BYTE = { name: "BYTE", sizeof: 1 };
-        FLOAT = { name: "FLOAT", sizeof: 4 };
-        SHORT = { name: "SHORT", sizeof: 2 };
-        UBYTE = { name: "UNSIGNED_BYTE", sizeof: 1 };
-        USHORT = { name : "UNSIGNED_SHORT", sizeof: 2 };
-        break;
-
-    default: break;
-}
 
 // GraphicsContext
 class GraphicsContext {
@@ -44,14 +27,25 @@ class GraphicsContext {
         switch (WRENDER.GRAPHICS_API) {
     
             case "WebGL1":
-                gl1Init(this.canvas);
+                glInit(this.canvas);
                 
-                gl1Enable(GL1_SCISSOR_TEST);
-                gl1Enable(GL1_DEPTH_TEST);
-                gl1Enable(GL1_BLEND);
+                glEnable(GL_SCISSOR_TEST);
+                glEnable(GL_DEPTH_TEST);
+                glEnable(GL_BLEND);
 
-                gl1DepthFunc(GL1_LESS);
-                gl1BlendFunc(GL1_SRC_ALPHA, GL1_ONE_MINUS_SRC_ALPHA);
+                glDepthFunc(GL_LESS);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                break;
+
+            case "WebGL2":
+                glInit(this.canvas);
+                
+                glEnable(GL_SCISSOR_TEST);
+                glEnable(GL_DEPTH_TEST);
+                glEnable(GL_BLEND);
+
+                glDepthFunc(GL_LESS);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 break;
         
             default: break;
@@ -63,8 +57,8 @@ class GraphicsContext {
 
         this.quad = VertexArray.Create(
             [
-                { name: "a_Position", type: FLOAT, count: 2 }, 
-                { name: "a_TexCoord", type: FLOAT, count: 2 }
+                { name: "a_Position", type: WRENDER.FLOAT, count: 2 }, 
+                { name: "a_TexCoord", type: WRENDER.FLOAT, count: 2 }
             ], new Float32Array
             ([
                  /* #1 */    /* Pos */ -1, -1,  /* UV */ 0, 1,
@@ -115,8 +109,8 @@ class Graphics {
 
     // Methods
     static blit(shader) {
-        gl1Enable(GL1_BLEND);
-        gl1BlendFunc(GL1_SRC_ALPHA, GL1_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         shader.bind();
         context.quad.bind();
@@ -125,9 +119,9 @@ class Graphics {
         switch (WRENDER.GRAPHICS_API) {
         
             case "WebGL1":
-                gl1Viewport(0, 0, this.resolution.width, this.resolution.height);
-                gl1Scissor(0, 0, this.resolution.width, this.resolution.height);
-                gl1DrawArrays(6);
+                glViewport(0, 0, this.resolution.width, this.resolution.height);
+                glScissor(0, 0, this.resolution.width, this.resolution.height);
+                glDrawArrays(6);
                 break;
 
             default: break;

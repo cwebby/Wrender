@@ -2,21 +2,21 @@
 
 // Import/Export
 import {
-    GL1_RGBA,
-    GL1_TEXTURE_2D,
-    GL1_UNSIGNED_BYTE,
+    GL_RGBA,
+    GL_TEXTURE_2D,
+    GL_UNSIGNED_BYTE,
 
-    GL1_TEXTURE_WRAP_S,
-    GL1_TEXTURE_WRAP_T,
-    GL1_TEXTURE_MIN_FILTER,
-    GL1_TEXTURE_MAG_FILTER,
+    GL_TEXTURE_WRAP_S,
+    GL_TEXTURE_WRAP_T,
+    GL_TEXTURE_MIN_FILTER,
+    GL_TEXTURE_MAG_FILTER,
 
-    gl1CreateTexture,
-    gl1DeleteTexture,
-    gl1texParameteri,
-    gl1ActiveTexture,
-    gl1BindTexture,
-    gl1TexImage2D
+    glCreateTexture,
+    glDeleteTexture,
+    gltexParameteri,
+    glActiveTexture,
+    glBindTexture,
+    glTexImage2D
 } from "./WebGL1API.js"
 
 import { Texture2DInterface, 
@@ -27,29 +27,29 @@ export { WebGL1Texture2D, WebGL1RenderTexture }
 class WebGL1Texture2D extends Texture2DInterface {
     constructor(image, params = {}) {
         super(image, params); 
-        this.gl1ID = gl1CreateTexture();
+        this.glID = glCreateTexture();
 
-        gl1BindTexture(GL1_TEXTURE_2D, this.gl1ID);
-        gl1TexImage2D(GL1_TEXTURE_2D, 0, GL1_RGBA, GL1_UNSIGNED_BYTE, { pixels: image });
+        glBindTexture(GL_TEXTURE_2D, this.glID);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, { pixels: image });
 
-        gl1texParameteri(GL1_TEXTURE_2D, GL1_TEXTURE_MAG_FILTER, this.filter);
-        gl1texParameteri(GL1_TEXTURE_2D, GL1_TEXTURE_MIN_FILTER, this.filter);
-        gl1texParameteri(GL1_TEXTURE_2D, GL1_TEXTURE_WRAP_S, this.wrap);
-        gl1texParameteri(GL1_TEXTURE_2D, GL1_TEXTURE_WRAP_T, this.wrap);
-        gl1BindTexture(GL1_TEXTURE_2D, null);
+        gltexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, this.filter);
+        gltexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, this.filter);
+        gltexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, this.wrap);
+        gltexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, this.wrap);
+        glBindTexture(GL_TEXTURE_2D, null);
     }
 
     // Vars
-    gl1ID;
+    glID;
 
     // Methods
     bind(slot) {
-        gl1ActiveTexture(slot);
-        gl1BindTexture(GL1_TEXTURE_2D, this.gl1ID);
+        glActiveTexture(slot);
+        glBindTexture(GL_TEXTURE_2D, this.glID);
     }
 
-    unbind() { gl1BindTexture(GL1_TEXTURE_2D, null); }
-    release() { gl1DeleteTexture(this.gl1ID); }
+    unbind() { glBindTexture(GL_TEXTURE_2D, null); }
+    release() { glDeleteTexture(this.glID); }
 }
 
 class WebGL1RenderTexture extends RenderTextureInterface {

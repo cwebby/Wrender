@@ -13,7 +13,7 @@ class VertexArray {
     static Create(layout, data, indicies = null) {
         switch (WRENDER.GRAPHICS_API) {
             case "WebGL1": return new WebGL1VertexArray(layout, data, indicies);
-            //case "WebGL2": return new WebGL2VertexArray(layout, data, indicies);
+            case "WebGL2": return new WebGL2VertexArray(layout, data, indicies);
             //case "WebGPU": return new WebGPUVertexArray(layout, data, indicies);
             default: return null;
         }

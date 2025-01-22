@@ -1,22 +1,16 @@
 // Wrender/Graphics.js, Cwebb.
 
 // Imports/Exports
-import { 
-    GL_SCISSOR_TEST, 
-    GL_DEPTH_TEST, GL_LESS,
-    GL_BLEND, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA,
-    glInit, glViewport, glDrawArrays, glDepthFunc, glBlendFunc, glEnable,
-    glScissor
+import { VertexArray } from "./Graphics/VertexArray.js"
+import { Texture2D } from "./Graphics/Textures.js"
+import { Shader } from "./Graphics/Shader.js"
+export { VertexArray, Texture2D, Shader };
 
-} from "./Graphics/WebGL1/WebGL1API.js"
+import * as WebGL1 from "./Graphics/WebGL1/API.js"
+import * as WebGL2 from "./Graphics/WebGL2/API.js"
 
 import * as WRENDER from "./API.js"
-import { VertexArray } from "./Graphics/VertexArray.js"
-
 export { Graphics };
-
-// defs
-
 
 // GraphicsContext
 class GraphicsContext {
@@ -27,27 +21,28 @@ class GraphicsContext {
         switch (WRENDER.GRAPHICS_API) {
     
             case "WebGL1":
-                glInit(this.canvas);
+                WebGL1.Init(this.canvas);
                 
-                glEnable(GL_SCISSOR_TEST);
-                glEnable(GL_DEPTH_TEST);
-                glEnable(GL_BLEND);
+                WebGL1.Enable(WebGL1.SCISSOR_TEST);
+                WebGL1.Enable(WebGL1.DEPTH_TEST);
+                WebGL1.Enable(WebGL1.BLEND);
 
-                glDepthFunc(GL_LESS);
-                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                WebGL1.DepthFunc(WebGL1.LESS);
+                WebGL1.BlendFunc(WebGL1.SRC_ALPHA, 
+                    WebGL1.ONE_MINUS_SRC_ALPHA);
                 break;
-
             case "WebGL2":
-                glInit(this.canvas);
+                WebGL2.Init(this.canvas);
                 
-                glEnable(GL_SCISSOR_TEST);
-                glEnable(GL_DEPTH_TEST);
-                glEnable(GL_BLEND);
+                WebGL2.Enable(WebGL2.SCISSOR_TEST);
+                WebGL2.Enable(WebGL2.DEPTH_TEST);
+                WebGL2.Enable(WebGL2.BLEND);
 
-                glDepthFunc(GL_LESS);
-                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                WebGL2.DepthFunc(WebGL2.LESS);
+                WebGL2.BlendFunc(WebGL2.SRC_ALPHA, 
+                    WebGL2.ONE_MINUS_SRC_ALPHA);
                 break;
-        
+
             default: break;
         }
 
@@ -61,13 +56,13 @@ class GraphicsContext {
                 { name: "a_TexCoord", type: WRENDER.FLOAT, count: 2 }
             ], new Float32Array
             ([
-                 /* #1 */    /* Pos */ -1, -1,  /* UV */ 0, 1,
-                 /* #2 */    /* Pos */ -1, 1,   /* UV */ 0, 0,
-                 /* #3 */    /* Pos */  1, 1,    /* UV */ 1, 0,
-                
-                 /* #4 */    /* Pos */ 1, 1,   /* UV */ 1, 0,
-                 /* #5 */    /* Pos */ 1, -1,   /* UV */ 1, 1,
-                 /* #6 */    /* Pos */ -1, -1,   /* UV */ 0, 1,
+                 /* Pos */-1, -1, /* UV */ 0, 0,
+                 /* Pos */ 1, -1, /* UV */ 1, 0,
+                 /* Pos */ 1,  1, /* UV */ 1, 1,
+
+                 /* Pos */ 1,  1, /* UV */ 1, 1,
+                 /* Pos */-1,  1, /* UV */ 0, 1,
+                 /* Pos */-1, -1, /* UV */ 0, 0
             ])
         );
     }
@@ -108,26 +103,55 @@ class Graphics {
     }
 
     // Methods
-    static blit(shader) {
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    static drawMesh(mesh, shader, transform) {
+        Shader.setStaticMatrix4x4("u_M", transform.array);
 
         shader.bind();
-        context.quad.bind();
-        //activeRenderTarget?.bind();
-
+        mesh.vertexArray.bind();
         switch (WRENDER.GRAPHICS_API) {
         
             case "WebGL1":
-                glViewport(0, 0, this.resolution.width, this.resolution.height);
-                glScissor(0, 0, this.resolution.width, this.resolution.height);
-                glDrawArrays(6);
+                WebGL1.Enable(WebGL1.BLEND);
+                WebGL1.BlendFunc(WebGL1.SRC_ALPHA, WebGL1.ONE_MINUS_SRC_ALPHA);
+                WebGL1.Viewport(0, 0, this.resolution.width, this.resolution.height);
+                WebGL1.Scissor(0, 0, this.resolution.width, this.resolution.height);
+                WebGL1.DrawArrays(mesh.vertexArray.count);
+                break;
+            case "WebGL2":
+                WebGL2.Enable(WebGL2.BLEND);
+                WebGL2.BlendFunc(WebGL2.SRC_ALPHA, WebGL2.ONE_MINUS_SRC_ALPHA);
+                WebGL2.Viewport(0, 0, this.resolution.width, this.resolution.height);
+                WebGL2.Scissor(0, 0, this.resolution.width, this.resolution.height);
+                WebGL2.DrawArrays(mesh.vertexArray.count);
                 break;
 
             default: break;
         }
+        mesh.vertexArray.unbind();
+        shader.unbind();
+    }
 
-        //activeRenderTarget?.unbind();
+    static blit(shader, source = null, destination = null) {
+        shader.bind();
+        context.quad.bind();
+        switch (WRENDER.GRAPHICS_API) {
+        
+            case "WebGL1":
+                WebGL1.Enable(WebGL1.BLEND);
+                WebGL1.BlendFunc(WebGL1.SRC_ALPHA, WebGL1.ONE_MINUS_SRC_ALPHA);
+                WebGL1.Viewport(0, 0, this.resolution.width, this.resolution.height);
+                WebGL1.Scissor(0, 0, this.resolution.width, this.resolution.height);
+                WebGL1.DrawArrays(context.quad.count);
+                break;
+            case "WebGL2":
+                WebGL2.Enable(WebGL2.BLEND);
+                WebGL2.BlendFunc(WebGL2.SRC_ALPHA, WebGL2.ONE_MINUS_SRC_ALPHA);
+                WebGL2.Viewport(0, 0, this.resolution.width, this.resolution.height);
+                WebGL2.Scissor(0, 0, this.resolution.width, this.resolution.height);
+                WebGL2.DrawArrays(context.quad.count);
+
+            default: break;
+        }
         context.quad.unbind();
         shader.unbind();
     }

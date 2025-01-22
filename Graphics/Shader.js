@@ -2,9 +2,9 @@
 
 // Imports / Exports
 import * as WRENDER from "../API.js";
-import { WebGL1Shader } from "./WebGL1/WebGL1Shader.js";
-//import { WebGL2Shader } from "./WebGL2/WebGL2Shader.js";
-//import { WebGPUShader } from "./WebGPU/WebGPUShader.js";
+
+import * as WebGL1 from "./WebGL1/Shader.js";
+import * as WebGL2 from "./WebGL2/Shader.js";
 
 export { Shader };
 
@@ -16,12 +16,10 @@ class Shader {
 
         if (!shaders[url]) {
             switch (WRENDER.GRAPHICS_API) {
-                case "WebGL1": shaders[url] = await WebGL1Shader.fromURL(url);
+                case "WebGL1": shaders[url] = await WebGL1.Shader.fromURL(url);
                     break;
-                //case "WebGL2": shaders[url] = await WebGL2Shader.fromURL(url);
-                    //break;
-                //case "WebGPU": shaders[url] = await WebGPUShader.fromURL(url);
-                    //break;
+                case "WebGL2": shaders[url] = await WebGL2.Shader.fromURL(url);
+                    break;
             }
         }
         

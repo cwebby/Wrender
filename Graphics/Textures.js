@@ -2,7 +2,9 @@
 
 // Imports / Exports
 import * as WRENDER from "../API.js"
-import { WebGL1Texture2D } from "./WebGL1/WebGL1Textures.js"
+
+import * as WebGL1 from "./WebGL1/Textures.js"
+import * as WebGL2 from "./WebGL2/Textures.js"
 
 export { Texture2D };
 
@@ -19,15 +21,11 @@ class Texture2D {
                 switch (WRENDER.GRAPHICS_API)
                 {
                     case "WebGL1":
-                        res(new WebGL1Texture2D(img, params));
+                        res(new WebGL1.Texture2D(img, params));
                         break;
 
                     case "WebGL2":
-                        
-                        break;
-
-                    case "WebGPU":
-                        
+                        res(new WebGL2.Texture2D(img, params));
                         break;
                 }
             };

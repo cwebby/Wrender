@@ -3,7 +3,7 @@
 
 // Vars
 const startTime = Date.now();
-let current = 0;
+let current = 1;
 let delta = 0;
 
 // Functions
